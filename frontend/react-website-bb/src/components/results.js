@@ -1,16 +1,22 @@
 import React from 'react';
 import { quickSort } from '../utils/sorting';
+import { filterPlayers } from '../utils/filter';
 
-const Results = ({ results, onSelectPlayer, sortKey }) => {
-  const sortedResults = quickSort(results, sortKey);
+const Results = ({ players, query, sortKey, onSelectPlayer }) => {
+  const filteredPlayers = filterPlayers(players, query);
+  const sortedPlayers = quickSort(filteredPlayers, sortKey);
 
   return (
     <div>
-      {sortedResults.map(player => (
-        <div key={player.id} onClick={() => onSelectPlayer(player.id)}>
+      <h2>Player Stats</h2>
+      {sortedPlayers.map((player, index) => (
+        <div key={index} onClick={() => onSelectPlayer(player)}>
           <h3>{player.name}</h3>
-          <p>Points: {player.points}</p>
-          {/* Add other stats here */}
+          <p>Season: {player.SEASON}</p>
+          <p>Points: {player.PTS}</p>
+          <p>Rebounds: {player.REB}</p>
+          <p>Assists: {player.AST}</p>
+          {/* Add more stats as needed */}
         </div>
       ))}
     </div>

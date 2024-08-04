@@ -9,11 +9,11 @@ const Search = ({ onSearch }) => {
 
   return (
     <div>
-      <input 
-        type="text" 
-        value={query} 
-        onChange={(e) => setQuery(e.target.value)} 
-        placeholder="Search for players or stats" 
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search for players or stats"
       />
       <button onClick={handleSearch}>Search</button>
     </div>
