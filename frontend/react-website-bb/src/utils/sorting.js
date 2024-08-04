@@ -15,7 +15,7 @@ export const getHeapSortSteps = (array, sortKey) => {
     }
     if (largest !== i) {
       [arr[i], arr[largest]] = [arr[largest], arr[i]];
-      steps.push([...arr]);
+      steps.push({ array: [...arr], swappedIndices: [i, largest] });
       heapify(arr, n, largest);
     }
   };
@@ -32,7 +32,7 @@ export const getHeapSortSteps = (array, sortKey) => {
     buildMaxHeap(arr);
     for (let i = n - 1; i > 0; i--) {
       [arr[0], arr[i]] = [arr[i], arr[0]];
-      steps.push([...arr]);
+      steps.push({ array: [...arr], swappedIndices: [0, i] });
       heapify(arr, i, 0);
     }
   };
@@ -61,15 +61,16 @@ export const getQuickSortSteps = (array, sortKey) => {
     for (let j = left; j < right; j++) {
       if (arr[j][sortKey] < pivot) {
         [arr[i], arr[j]] = [arr[j], arr[i]];
+        steps.push({ array: [...arr], swappedIndices: [i, j] });
         i++;
       }
     }
     [arr[i], arr[right]] = [arr[right], arr[i]];
-    steps.push([...arr]);
+    steps.push({ array: [...arr], swappedIndices: [i, right] });
     return i;
   };
 
-  steps.push(array);
+  steps.push({ array: array, swappedIndices: [] });
   quickSortWithSteps(array, 0, array.length - 1);
   return steps;
 };

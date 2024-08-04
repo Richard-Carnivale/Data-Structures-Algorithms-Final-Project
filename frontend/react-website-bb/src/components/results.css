@@ -1,5 +1,5 @@
 .highlight {
-    background-color: #f8d7da; /* Red color for highlighting */
+    background-color: #f83747; /* Red color for highlighting */
     transition: background-color 0.5s ease; /* Smooth transition */
   }
   
@@ -20,4 +20,14 @@
   
   th {
     background-color: #f4f4f4;
+  }
+
+  .highlight2 {
+    background-color: yellow; /* Highlight color */
+    transition: background-color 0.5s ease; /* Smooth transition */
+  }
+  
+  .dehighlight {
+    background-color: white; /* Default color */
+    transition: background-color 0.5s ease; /* Smooth transition */
   }
