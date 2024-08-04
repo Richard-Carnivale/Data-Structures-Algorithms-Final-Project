@@ -31,10 +31,18 @@ const App = () => {
     setSortKey(event.target.value); // Update sort key based on user selection
   };
 
+  const handleQueryChange = (newQuery) => {
+    setQuery(newQuery);
+  };
+
   return (
     <div>
       <h1>NBA Player Stats</h1>
-      <Search players={players} onSelectPlayer={handlePlayerSelect} />
+      <Search
+        players={players}
+        onSelectPlayer={handlePlayerSelect}
+        onQueryChange={handleQueryChange}
+      />
       <label htmlFor="sortKey">Sort By:</label>
       <select id="sortKey" value={sortKey} onChange={handleSortChange}>
         <option value="PTS">Points</option>
