@@ -1,38 +1,75 @@
-export const quickSort = (arr, key) => {
-  if (arr.length <= 1) return arr;
+// Heap Sort with steps
+export const getHeapSortSteps = (array, sortKey) => {
+  const steps = [];
 
-  const pivot = arr[Math.floor(arr.length / 2)][key];
-  const left = arr.filter(item => item[key] < pivot);
-  const right = arr.filter(item => item[key] > pivot);
-  const middle = arr.filter(item => item[key] === pivot);
+  const heapify = (arr, n, i) => {
+    let largest = i;
+    const left = 2 * i + 1;
+    const right = 2 * i + 2;
 
-  return [...quickSort(left, key), ...middle, ...quickSort(right, key)];
-};
-
-export const mergeSort = (arr, key) => {
-  if (arr.length <= 1) return arr;
-
-  const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid), key);
-  const right = mergeSort(arr.slice(mid), key);
-
-  return merge(left, right, key);
-};
-
-const merge = (left, right, key) => {
-  let result = [],
-    leftIndex = 0,
-    rightIndex = 0;
-
-  while (leftIndex < left.length && rightIndex < right.length) {
-    if (left[leftIndex][key] < right[rightIndex][key]) {
-      result.push(left[leftIndex]);
-      leftIndex++;
-    } else {
-      result.push(right[rightIndex]);
-      rightIndex++;
+    if (left < n && arr[left][sortKey] > arr[largest][sortKey]) {
+      largest = left;
     }
-  }
+    if (right < n && arr[right][sortKey] > arr[largest][sortKey]) {
+      largest = right;
+    }
+    if (largest !== i) {
+      [arr[i], arr[largest]] = [arr[largest], arr[i]];
+      steps.push([...arr]);
+      heapify(arr, n, largest);
+    }
+  };
 
-  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+  const buildMaxHeap = (arr) => {
+    const n = arr.length;
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+      heapify(arr, n, i);
+    }
+  };
+
+  const heapSort = (arr) => {
+    const n = arr.length;
+    buildMaxHeap(arr);
+    for (let i = n - 1; i > 0; i--) {
+      [arr[0], arr[i]] = [arr[i], arr[0]];
+      steps.push([...arr]);
+      heapify(arr, i, 0);
+    }
+  };
+
+  const arrCopy = [...array];
+  heapSort(arrCopy);
+  return steps;
+};
+
+// Quick Sort with steps
+export const getQuickSortSteps = (array, sortKey) => {
+  const steps = [];
+
+  const quickSortWithSteps = (arr, left, right) => {
+    if (left >= right) return;
+
+    const pivotIndex = partition(arr, left, right);
+    quickSortWithSteps(arr, left, pivotIndex - 1);
+    quickSortWithSteps(arr, pivotIndex + 1, right);
+  };
+
+  const partition = (arr, left, right) => {
+    const pivot = arr[right][sortKey];
+    let i = left;
+
+    for (let j = left; j < right; j++) {
+      if (arr[j][sortKey] < pivot) {
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+        i++;
+      }
+    }
+    [arr[i], arr[right]] = [arr[right], arr[i]];
+    steps.push([...arr]);
+    return i;
+  };
+
+  steps.push(array);
+  quickSortWithSteps(array, 0, array.length - 1);
+  return steps;
 };

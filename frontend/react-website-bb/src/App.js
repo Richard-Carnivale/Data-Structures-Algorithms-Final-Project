@@ -10,6 +10,7 @@ const App = () => {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [query, setQuery] = useState('');
   const [sortKey, setSortKey] = useState('PTS'); // Default sort by points
+  const [sortAlgorithm, setSortAlgorithm] = useState('quick'); // Default sorting algorithm (change from 'merge' to 'quick' if needed)
 
   useEffect(() => {
     // Load player data on component mount
@@ -29,6 +30,10 @@ const App = () => {
 
   const handleSortChange = (event) => {
     setSortKey(event.target.value); // Update sort key based on user selection
+  };
+
+  const handleAlgorithmChange = (event) => {
+    setSortAlgorithm(event.target.value); // Update sorting algorithm
   };
 
   const handleQueryChange = (newQuery) => {
@@ -52,10 +57,16 @@ const App = () => {
         <option value="FG_PCT">Field Goal Percentage</option>
         {/* Add more options as needed */}
       </select>
+      <label htmlFor="sortAlgorithm">Sorting Algorithm:</label>
+      <select id="sortAlgorithm" value={sortAlgorithm} onChange={handleAlgorithmChange}>
+        <option value="quick">Quick Sort</option>
+        <option value="heap">Heap Sort</option>
+      </select>
       <Results
         players={players}
         query={query}
         sortKey={sortKey}
+        sortAlgorithm={sortAlgorithm}
         onSelectPlayer={handlePlayerSelect}
       />
       {selectedPlayers.length === 2 && (
