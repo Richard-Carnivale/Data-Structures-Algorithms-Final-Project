@@ -17,31 +17,31 @@ const App = () => {
     setPlayers(data);
   }, []);
 
-  const handleSearch = (query) => {
-    setQuery(query);
+  const handlePlayerSelect = (player) => {
+    if (player) {
+      if (selectedPlayers.length < 2) {
+        setSelectedPlayers([...selectedPlayers, player]);
+      } else {
+        setSelectedPlayers([selectedPlayers[1], player]); // Replace oldest selection
+      }
+    }
   };
 
   const handleSortChange = (event) => {
-    setSortKey(event.target.value);
-  };
-
-  const handlePlayerSelect = (player) => {
-    if (selectedPlayers.length < 2) {
-      setSelectedPlayers([...selectedPlayers, player]);
-    } else {
-      setSelectedPlayers([selectedPlayers[1], player]); // Replace oldest selection
-    }
+    setSortKey(event.target.value); // Update sort key based on user selection
   };
 
   return (
     <div>
       <h1>NBA Player Stats</h1>
-      <Search onSearch={handleSearch} />
+      <Search players={players} onSelectPlayer={handlePlayerSelect} />
       <label htmlFor="sortKey">Sort By:</label>
       <select id="sortKey" value={sortKey} onChange={handleSortChange}>
         <option value="PTS">Points</option>
         <option value="REB">Rebounds</option>
         <option value="AST">Assists</option>
+        <option value="FGM">Field Goals Made</option>
+        <option value="FG_PCT">Field Goal Percentage</option>
         {/* Add more options as needed */}
       </select>
       <Results

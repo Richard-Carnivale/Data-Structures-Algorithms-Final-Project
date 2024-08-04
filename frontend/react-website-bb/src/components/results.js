@@ -1,10 +1,11 @@
 import React from 'react';
 import { quickSort } from '../utils/sorting';
+import { mergeSort } from '../utils/sorting';
 import { filterPlayers } from '../utils/filter';
 
 const Results = ({ players, query, sortKey, onSelectPlayer }) => {
-  const filteredPlayers = filterPlayers(players, query);
-  const sortedPlayers = quickSort(filteredPlayers, sortKey);
+  const filteredPlayers = filterPlayers(players, query); // First, filter players based on the query.
+  const sortedPlayers = mergeSort(filteredPlayers, sortKey); // Then, sort the filtered players using the chosen sort key.
 
   return (
     <div>
