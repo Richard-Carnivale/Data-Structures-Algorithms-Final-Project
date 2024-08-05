@@ -12,6 +12,8 @@ const Results = ({ players, query, sortKey, sortAlgorithm, onSelectPlayer }) => 
   const [highlightedIndices, setHighlightedIndices] = useState([]); // Store indices of swapped elements
   const [sortSpeed, setSortSpeed] = useState(1); // Speed factor for sorting
   const [speedText, setSpeedText] = useState('Normal'); // Current speed label
+  const [startTime, setStartTime] = useState(null); // Track start time
+  const [elapsedTime, setElapsedTime] = useState(0); // Elapsed time
 
   // Filter and sort players when the sort button is clicked
   useEffect(() => {
@@ -30,6 +32,7 @@ const Results = ({ players, query, sortKey, sortAlgorithm, onSelectPlayer }) => 
       setCurrentStep(0);
       setHighlightedIndices(sortingSteps[0].swappedIndices); // Initialize with first swapped indices
       setButtonText('Sorting...'); // Change button text to "Sorting..."
+      setStartTime(Date.now()); // Record start time
     }
   }, [isSorting, sortAlgorithm, sortKey, query, players]);
 
@@ -48,14 +51,16 @@ const Results = ({ players, query, sortKey, sortAlgorithm, onSelectPlayer }) => 
           setIsSorting(false); // Stop sorting after the last step
           setButtonText('Start Sorting'); // Change button text to "Start Sorting"
           setHighlightedIndices([]); // Clear highlights after sorting
+          setElapsedTime(Date.now() - startTime); // Calculate elapsed time
         }
       }, delay); // Adjust the speed of animation
     }
     return () => clearInterval(interval);
-  }, [currentStep, isSorting, steps, sortSpeed]);
+  }, [currentStep, isSorting, steps, sortSpeed, startTime]);
 
   const startSorting = () => {
     setIsSorting(true);
+    setElapsedTime(0); // Reset elapsed time when sorting starts
   };
 
   const filterPlayers = (players, query) => {
@@ -72,6 +77,9 @@ const Results = ({ players, query, sortKey, sortAlgorithm, onSelectPlayer }) => 
     
     // Update the speed text
     switch (selectedSpeed) {
+      case '0.1':
+        setSpeedText('Really Slow');
+        break;
       case '0.5':
         setSpeedText('Slow');
         break;
@@ -92,16 +100,18 @@ const Results = ({ players, query, sortKey, sortAlgorithm, onSelectPlayer }) => 
 
   return (
     <div>
-      {/* Speed control at the top */}
+      {/* Speed control and elapsed time at the top */}
       <div className="speed-control">
         <label htmlFor="sortSpeed">Sort Speed:</label>
         <select id="sortSpeed" value={sortSpeed} onChange={handleSpeedChange}>
+          <option value={0.1}>Really Slow</option> {/* New Really Slow option */}
           <option value={0.5}>Slow</option>
           <option value={1}>Normal</option>
           <option value={3}>Fast</option>
           <option value={5}>Very Fast</option>
         </select>
         <p>Current Speed: {speedText}</p>
+        <p>Time Elapsed: {(elapsedTime / 1000).toFixed(2)} seconds</p>
       </div>
 
       {/* Start Sorting button */}

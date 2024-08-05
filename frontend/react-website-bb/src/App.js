@@ -48,7 +48,7 @@ const App = () => {
         onSelectPlayer={handlePlayerSelect}
         onQueryChange={handleQueryChange}
       />
-      <label htmlFor="sortKey">Sort By:</label>
+      <label htmlFor="sortKey">   Sort By:</label>
       <select id="sortKey" value={sortKey} onChange={handleSortChange}>
         <option value="PTS">Points</option>
         <option value="REB">Rebounds</option>
