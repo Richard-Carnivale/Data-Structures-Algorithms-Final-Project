@@ -3,7 +3,7 @@ import { loadPlayerData } from './utils/loadData';
 import Results from './components/results';
 import Search from './components/search';
 import Comparison from './components/comparison';
-import './app.css';
+import './App.css';
 
 const App = () => {
     const [players, setPlayers] = useState([]);
