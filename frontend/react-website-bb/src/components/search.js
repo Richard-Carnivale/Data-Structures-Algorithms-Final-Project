@@ -1,39 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Search = ({ players, onSelectPlayer, onQueryChange }) => {
-  const handleInputChange = (event) => {
-    const query = event.target.value;
-    onQueryChange(query);
-  };
+const Search = ({ players, onQueryChange }) => {
+    const [inputValue, setInputValue] = useState('');
 
-  // Commenting out the dropdown section
-  // const handlePlayerSelect = (event) => {
-  //   const selectedPlayer = players.find(player => player.name === event.target.value);
-  //   onSelectPlayer(selectedPlayer);
-  // };
+    const handleInputChange = (event) => {
+        const value = event.target.value;
+        setInputValue(value);
+        onQueryChange(value);
+    };
 
-  return (
-    <div>
-      <label htmlFor="player-search">Search Player:</label>
-      <input
-        id="player-search"
-        type="text"
-        placeholder="Type player name..."
-        onChange={handleInputChange}
-      />
-      {/* Commented out dropdown
-      <label htmlFor="player-select">Or Select Player:</label>
-      <select id="player-select" onChange={handlePlayerSelect}>
-        <option value="">--Select a Player--</option>
-        {players.map(player => (
-          <option key={player.Player_ID} value={player.name}>
-            {player.name}
-          </option>
-        ))}
-      </select>
-      */}
-    </div>
-  );
+    return (
+        <div className="search">
+            <input
+                type="text"
+                placeholder="Search players..."
+                value={inputValue}
+                onChange={handleInputChange}
+                className="search-input"
+            />
+        </div>
+    );
 };
 
 export default Search;
