@@ -7,11 +7,16 @@ This is how to run the code for the website.
 
 https://www.freecodecamp.org/news/how-to-install-react-a-step-by-step-guide/
 
-2. Go to this folder
+2. Clone the repo to your computer
+3. Go to this folder
 
 project_3/frontend/react-website-bb
 
-3. Run this command
+4. Run this command
+
+'npm install'
+
+5. Run this command
 
 'npm start'
 
